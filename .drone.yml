@@ -10,12 +10,13 @@ clone:
   skip_verify: true
 
 steps:
-- name: Run Unit Tests
-  image: golang:latest
-  commands:
-  - ls
-  - go test
-- name: Build Binary
-  image: golang:latest
-  commands:
-  - go build
+- name: build base image
+  image: plugins/docker
+  settings:
+    repo: registry.dev.creepypoo.me/go-repetier
+    tags:
+      - latest
+      - arm64
+    dockerfile: Dockerfile
+    registry: registry.dev.creepypoo.me
+    insecure: true

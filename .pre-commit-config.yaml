@@ -26,5 +26,4 @@ repos:
       - id: go-cyclo
         args: [-over=15]
       - id: validate-toml
-      - id: go-unit-tests
       - id: go-mod-tidy

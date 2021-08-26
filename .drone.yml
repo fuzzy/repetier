@@ -16,3 +16,14 @@ steps:
   - apk update
   - apk add make alpine-sdk
   - make test
+  environment:
+    TEST_PROTO:
+      from_secret: TEST_PROTO
+    TEST_HOST:
+      from_secret: TEST_HOST
+    TEST_PORT:
+      from_secret: TEST_PORT
+    TEST_API_KEY:
+      from_secret: TEST_API_KEY
+    TEST_SLUG:
+      from_secret: TEST_SLUG

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"testing"
 	"time"
 
@@ -21,18 +22,33 @@ type TestConfig struct {
 	Printer string `json:"printer"`
 }
 
+func readJSONConfig() *TestConfig {
+	retv := &TestConfig{}
+	fn := "./test-fixture-data.json"
+	data, e := ioutil.ReadFile(fn)
+	if e != nil {
+		panic(e)
+	}
+	json.Unmarshal(data, retv)
+	return retv
+}
+
+func readEnvConfig() *TestConfig {
+	retv := &TestConfig{}
+	retv.Proto = os.Getenv("TEST_PROTO")
+	retv.Host = os.Getenv("TEST_HOST")
+	retv.Port, _ = strconv.Atoi(os.Getenv("TEST_PORT"))
+	retv.APIKey = os.Getenv("TEST_API_KEY")
+	retv.Printer = os.Getenv("TEST_SLUG")
+	return retv
+}
+
 func readConfig() *TestConfig {
 	fn := "./test-fixture-data.json"
-	retv := &TestConfig{}
 	if _, err := os.Stat(fn); err == nil {
-		data, e := ioutil.ReadFile(fn)
-		if e != nil {
-			panic(e)
-		}
-		json.Unmarshal(data, retv)
-		return retv
+		return readJSONConfig()
 	}
-	panic("Fatal error while reading local fixture data")
+	return readEnvConfig()
 }
 
 func TestClientProto(t *testing.T) {

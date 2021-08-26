@@ -14,5 +14,5 @@ steps:
   image: golang:alpine
   commands:
   - apk update
-  - apk add make
+  - apk add make alpine-sdk
   - make test

@@ -10,13 +10,9 @@ clone:
   skip_verify: true
 
 steps:
-- name: build base image
-  image: plugins/docker
-  settings:
-    repo: registry.dev.creepypoo.me/go-repetier
-    tags:
-      - latest
-      - arm64
-    dockerfile: Dockerfile
-    registry: registry.dev.creepypoo.me
-    insecure: true
+- name: test
+  image: golang:alpine
+  commands:
+  - apk update
+  - apk add make
+  - make test

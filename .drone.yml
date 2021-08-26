@@ -13,6 +13,7 @@ steps:
 - name: Run Unit Tests
   image: golang:latest
   commands:
+  - ls
   - go test
 - name: Build Binary
   image: golang:latest

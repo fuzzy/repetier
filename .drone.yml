@@ -9,10 +9,6 @@ platform:
 clone:
   skip_verify: true
 
-workspace:
-  base: /go
-  path: src/github.com/fuzzy/repetier
-
 steps:
 - name: test
   image: golang:alpine

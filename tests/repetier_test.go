@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/fuzzy/repetier"
 )
@@ -110,9 +111,13 @@ func TestServerObjectCanSetExtruderTemp(t *testing.T) {
 	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
 	api.Printers[config.Printer].Extruders[0].SetTemp(215.0)
 	// TODO check that the temp gets set
+	time.Sleep(10 * time.Second)
+	api.Printers[config.Printer].Extruders[0].SetTemp(0.0)
 }
 
 func TestServerObjectCanSetBedTemp(t *testing.T) {
 	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
 	api.Printers[config.Printer].HeatedBed.SetTemp(55.0)
+	time.Sleep(10 * time.Second)
+	api.Printers[config.Printer].HeatedBed.SetTemp(0.0)
 }

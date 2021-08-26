@@ -2,6 +2,7 @@ package repetier
 
 // Update blah
 func (obj *PrinterExtruder) Update() {
+	// TODO some actual work
 	return
 }
 

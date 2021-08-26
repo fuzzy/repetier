@@ -1,3 +1,5 @@
+[![Build Status](https://drone.dev.creepypoo.me/api/badges/wombat/repetier/status.svg)](https://drone.dev.creepypoo.me/wombat/repetier)
+
 # Golang Repetier-Server API Client library
 
 build / install / reference things in the usual way:

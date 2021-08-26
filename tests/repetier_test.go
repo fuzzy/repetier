@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -77,8 +76,6 @@ func TestServerObjectInstantiation(t *testing.T) {
 	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
 	if api.Name == "" || api.Version == "" {
 		t.Errorf("API Client not updating properly on instantiation.")
-	} else {
-		t.Logf("Name: %s (%s v%s)", api.Name, api.Software, api.Version)
 	}
 }
 
@@ -86,33 +83,25 @@ func TestServerObjectHasSlugs(t *testing.T) {
 	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
 	if len(api.Slugs()) == 0 {
 		t.Errorf("API Client not getting all the slugs.")
-	} else {
-		for _, v := range api.Slugs() {
-			t.Logf("Found slug: %s", v)
-		}
 	}
 }
 
 func TestServerObjectHasExtruderTemps(t *testing.T) {
 	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
-	for k, v := range api.Printers {
+	for _, v := range api.Printers {
 		temp := v.State.Extruder[0].TempRead
 		if temp <= 1 {
 			t.Errorf("Could not read extruder temperature (got %.02f)", temp)
-		} else {
-			t.Log(fmt.Sprintf("%s Extruder[0]: %.02fC", k, temp))
 		}
 	}
 }
 
 func TestServerObjectHasHeatedBedTemps(t *testing.T) {
 	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
-	for k, v := range api.Printers {
+	for _, v := range api.Printers {
 		temp := v.State.HeatedBeds[0].TempRead
 		if temp <= 1 {
 			t.Errorf("Could not read HeatedBed temperature (got %.02f)", temp)
-		} else {
-			t.Log(fmt.Sprintf("%s HeatedBed: %.02fC", k, temp))
 		}
 	}
 }

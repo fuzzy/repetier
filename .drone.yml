@@ -1,0 +1,20 @@
+---
+kind: pipeline
+type: docker
+
+platform:
+  os: linux
+  arch: arm64
+
+clone:
+  skip_verify: true
+
+steps:
+- name: Run Unit Tests
+  image: golang:latest
+  commands:
+  - go test
+- name: Build Binary
+  image: golang:latest
+  commands:
+  - go build

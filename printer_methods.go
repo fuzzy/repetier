@@ -9,7 +9,7 @@ func (obj *Printer) Update() {
 	// First let's get our printer config and update ourselves
 	args := make(map[string]interface{})
 	args["printer"] = obj.slug
-	data := obj.api.action("getPrinterConfig", args, obj.slug)
+	data := obj.api.Action("getPrinterConfig", args, obj.slug)
 	json.Unmarshal(data, obj)
 	// update all the Extruders
 	for i := range obj.Extruders {
@@ -19,7 +19,7 @@ func (obj *Printer) Update() {
 	}
 	// get the state list, which despite requiring a slug, returns all printers.
 	stateArgs := make(map[string]interface{})
-	data = obj.api.action("stateList", stateArgs, obj.slug)
+	data = obj.api.Action("stateList", stateArgs, obj.slug)
 	tmpd := make(map[string]*PrinterState)
 	// Unmarshal the data into a map[string]*Printer as a temporary step
 	json.Unmarshal(data, &tmpd)
@@ -48,5 +48,5 @@ func (obj *Printer) Move(x, y, z, e float64, relative bool) {
 	args["z"] = z
 	args["e"] = e
 	args["relative"] = relative
-	obj.api.action("move", args, obj.slug)
+	obj.api.Action("move", args, obj.slug)
 }

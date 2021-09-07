@@ -1,6 +1,9 @@
 package repetier
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // Update will query the current state and update the structure
 func (obj *Server) Update() {
@@ -21,6 +24,29 @@ func (obj *Server) Slugs() []string {
 	retv := []string{}
 	for k := range obj.Printers {
 		retv = append(retv, k)
+	}
+	return retv
+}
+
+// TempPrinterState blah
+type TempPrinterState struct {
+	Active bool   `json:"active"`
+	Job    string `json:"job"`
+	Name   string `json:"name"`
+	Online int    `json:"online"`
+	Slug   string `json:"slug"`
+}
+
+// ListPrinters returns a list of printers and their states
+func (obj *Server) ListPrinters() map[string]*TempPrinterState {
+	temp := []*TempPrinterState{}
+	args := make(map[string]interface{})
+	retv := make(map[string]*TempPrinterState)
+	json.Unmarshal(obj.api.Action("listPrinter", args, ""), &temp)
+	fmt.Printf("%+v\n", temp)
+	for _, v := range temp {
+		fmt.Printf("%+v\n", v)
+		retv[v.Slug] = v
 	}
 	return retv
 }

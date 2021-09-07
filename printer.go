@@ -17,7 +17,7 @@ type Temperature struct {
 
 // Printer represents a given printer connected to Server
 type Printer struct {
-	api        *client
+	api        *RestClient
 	slug       string
 	Connection struct {
 		Serial *PrinterConnection `json:"serial"`
@@ -82,7 +82,7 @@ type Printer struct {
 		Marker      []interface{} `json:"marker"`
 	} `json:"shape"`
 	State  *PrinterState
-	Webcam *PrinterWebcam `json:"webcam"`
+	Webcam []*PrinterWebcam `json:"webcam"`
 }
 
 // PrinterState defines current state of a Printer
@@ -131,12 +131,13 @@ type PrinterState struct {
 }
 
 // NewPrinter returns a Printer object
-func newPrinter(a *client, s string) *Printer {
+func newPrinter(a *RestClient, s string) *Printer {
 	retv := &Printer{
 		api:       a,
 		slug:      s,
 		Extruders: []*PrinterExtruder{},
 		State:     &PrinterState{},
+		Webcam:    []*PrinterWebcam{&PrinterWebcam{}},
 	}
 	/*
 			HeatedBed: &PrinterHeatedBed{},
@@ -145,7 +146,7 @@ func newPrinter(a *client, s string) *Printer {
 		}
 	*/
 	retv.HeatedBed = newHeatedBed(a, s)
-	retv.Webcam = newWebcam(a, s)
+	// retv.Webcam = []*PrinterWebcam{newWebcam(a, s)}
 	retv.Update()
 	return retv
 }

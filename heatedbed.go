@@ -2,7 +2,7 @@ package repetier
 
 // PrinterHeatedBed defines a heated bed on a given Printer
 type PrinterHeatedBed struct {
-	api               *client
+	api               *RestClient
 	slug              string
 	CooldownPerSecond int            `json:"cooldownPerSecond"`
 	HeatupPerSecond   int            `json:"heatupPerSecond"`
@@ -13,7 +13,7 @@ type PrinterHeatedBed struct {
 }
 
 // NewHeatedBed blah
-func newHeatedBed(api *client, slug string) *PrinterHeatedBed {
+func newHeatedBed(api *RestClient, slug string) *PrinterHeatedBed {
 	retv := &PrinterHeatedBed{api: api, slug: slug}
 	retv.Update()
 	return retv

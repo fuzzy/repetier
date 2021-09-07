@@ -9,5 +9,5 @@ func (obj *PrinterHeatedBed) Update() {
 func (obj *PrinterHeatedBed) SetTemp(t float64) {
 	args := make(map[string]interface{})
 	args["temperature"] = t
-	obj.api.action("setBedTemperature", args, obj.slug)
+	obj.api.Action("setBedTemperature", args, obj.slug)
 }

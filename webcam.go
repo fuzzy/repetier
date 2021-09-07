@@ -2,7 +2,7 @@ package repetier
 
 // PrinterWebcam defines a webcam object associated with a specific printer
 type PrinterWebcam struct {
-	api               *client
+	api               *RestClient
 	slug              string
 	DynamicURL        string `json:"dynamicUrl"`
 	Method            int    `json:"method"`
@@ -12,7 +12,7 @@ type PrinterWebcam struct {
 	TimelapseMethod   int    `json:"timelapseMethod"`
 }
 
-func newWebcam(a *client, s string) *PrinterWebcam {
+func newWebcam(a *RestClient, s string) *PrinterWebcam {
 	retv := &PrinterWebcam{api: a, slug: s}
 	retv.Update()
 	return retv

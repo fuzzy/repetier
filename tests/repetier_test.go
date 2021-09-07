@@ -123,6 +123,7 @@ func TestServerObjectCanSetExtruderTemp(t *testing.T) {
 func TestServerObjectCanSetBedTemp(t *testing.T) {
 	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
 	api.Printers[config.Printer].HeatedBed.SetTemp(55.0)
+	api.Printers[config.Printer].HeatedBed.Update()
 	time.Sleep(10 * time.Second)
 	api.Printers[config.Printer].HeatedBed.SetTemp(0.0)
 }

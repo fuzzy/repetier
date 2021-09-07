@@ -17,7 +17,7 @@ type Temperature struct {
 
 // Printer represents a given printer connected to Server
 type Printer struct {
-	api        *client
+	api        *RestClient
 	slug       string
 	Connection struct {
 		Serial *PrinterConnection `json:"serial"`
@@ -131,7 +131,7 @@ type PrinterState struct {
 }
 
 // NewPrinter returns a Printer object
-func newPrinter(a *client, s string) *Printer {
+func newPrinter(a *RestClient, s string) *Printer {
 	retv := &Printer{
 		api:       a,
 		slug:      s,

@@ -6,14 +6,14 @@ type Server struct {
 	Software string
 	Version  string
 	Printers map[string]*Printer
-	api      *client
+	api      *RestClient
 }
 
 // NewServer returns a new Server object
 func NewServer(r, h string, p int, a string) *Server {
 	retv := &Server{
 		Printers: map[string]*Printer{},
-		api:      newClient(r, h, p, a),
+		api:      NewRestClient(r, h, p, a),
 	}
 	retv.Update()
 	return retv

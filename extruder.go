@@ -2,7 +2,7 @@ package repetier
 
 // PrinterExtruder structure for the Extruders present on a Printer
 type PrinterExtruder struct {
-	api               *client
+	api               *RestClient
 	slug              string
 	index             int
 	Acceleration      int            `json:"acceleration"`
@@ -20,7 +20,7 @@ type PrinterExtruder struct {
 	Temperatures      []*Temperature `json:"temperatures"`
 }
 
-func newExtruder(a *client, s string, i int) *PrinterExtruder {
+func newExtruder(a *RestClient, s string, i int) *PrinterExtruder {
 	retv := &PrinterExtruder{api: a, slug: s, index: i}
 	retv.Update()
 	return retv

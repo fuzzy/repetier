@@ -137,7 +137,7 @@ func newPrinter(a *RestClient, s string) *Printer {
 		slug:      s,
 		Extruders: []*PrinterExtruder{},
 		State:     &PrinterState{},
-		Webcam:    []*PrinterWebcam{},
+		Webcam:    []*PrinterWebcam{&PrinterWebcam{}},
 	}
 	/*
 			HeatedBed: &PrinterHeatedBed{},

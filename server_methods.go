@@ -40,10 +40,12 @@ type TempPrinterState struct {
 // ListPrinters returns a list of printers and their states
 func (obj *Server) ListPrinters() map[string]*TempPrinterState {
 	temp := []*TempPrinterState{}
+	args := make(map[string]interface{})
 	retv := make(map[string]*TempPrinterState)
-	_ = json.Unmarshal(obj.api.ListPrinter(), &temp)
+	json.Unmarshal(obj.api.Action("listPrinter", args, ""), &temp)
 	fmt.Printf("%+v\n", temp)
 	for _, v := range temp {
+		fmt.Printf("%+v\n", v)
 		retv[v.Slug] = v
 	}
 	return retv

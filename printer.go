@@ -82,7 +82,7 @@ type Printer struct {
 		Marker      []interface{} `json:"marker"`
 	} `json:"shape"`
 	State  *PrinterState
-	Webcam *PrinterWebcam `json:"webcam"`
+	Webcam []*PrinterWebcam `json:"webcam"`
 }
 
 // PrinterState defines current state of a Printer
@@ -137,6 +137,7 @@ func newPrinter(a *RestClient, s string) *Printer {
 		slug:      s,
 		Extruders: []*PrinterExtruder{},
 		State:     &PrinterState{},
+		Webcam:    []*PrinterWebcam{},
 	}
 	/*
 			HeatedBed: &PrinterHeatedBed{},
@@ -145,7 +146,7 @@ func newPrinter(a *RestClient, s string) *Printer {
 		}
 	*/
 	retv.HeatedBed = newHeatedBed(a, s)
-	retv.Webcam = newWebcam(a, s)
+	// retv.Webcam = []*PrinterWebcam{newWebcam(a, s)}
 	retv.Update()
 	return retv
 }

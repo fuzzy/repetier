@@ -137,7 +137,7 @@ func newPrinter(a *RestClient, s string) *Printer {
 		slug:      s,
 		Extruders: []*PrinterExtruder{},
 		State:     &PrinterState{},
-		Webcam:    []*PrinterWebcam{&PrinterWebcam{}},
+		Webcam:    []*PrinterWebcam{newWebcam(a, s)},
 	}
 	/*
 			HeatedBed: &PrinterHeatedBed{},
@@ -146,7 +146,7 @@ func newPrinter(a *RestClient, s string) *Printer {
 		}
 	*/
 	retv.HeatedBed = newHeatedBed(a, s)
-	retv.Webcam = []*PrinterWebcam{newWebcam(a, s)}
+	// retv.Webcam = []*PrinterWebcam{newWebcam(a, s)}
 	retv.Update()
 	return retv
 }

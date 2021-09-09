@@ -51,8 +51,3 @@ func (obj *RestClient) BaseURL() string {
 func (obj *RestClient) Action(act string, data map[string]interface{}, slug string) []byte {
 	return obj.request("api", act, data, slug)
 }
-
-// RemoveModel blah
-func (obj *RestClient) RemoveModel(id int64, s string) []byte {
-	return obj.request("api", "removeModel", map[string]interface{}{"id": id}, s)
-}

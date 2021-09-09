@@ -207,5 +207,5 @@ func (obj *PrinterWebcam) Update() {
 	args["printer"] = obj.slug
 	data := obj.api.Action("getPrinterConfig", args, obj.slug)
 	json.Unmarshal(data, temp)
-	fmt.Printf("%+V\n", temp)
+	fmt.Printf("%+v\n", temp)
 }

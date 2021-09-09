@@ -146,7 +146,7 @@ func newPrinter(a *RestClient, s string) *Printer {
 		}
 	*/
 	retv.HeatedBed = newHeatedBed(a, s)
-	// retv.Webcam = []*PrinterWebcam{newWebcam(a, s)}
+	retv.Webcam = []*PrinterWebcam{newWebcam(a, s)}
 	retv.Update()
 	return retv
 }

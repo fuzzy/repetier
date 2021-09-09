@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// MessagesReturn blah
 type MessagesReturn struct {
 	Date  time.Time `json:"date"`
 	ID    int       `json:"id"`

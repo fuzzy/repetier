@@ -2,6 +2,7 @@ package repetier
 
 import "encoding/json"
 
+// ListModelsReturn blah
 type ListModelsReturn struct {
 	Analysed      int       `json:"analysed"`
 	Created       int64     `json:"created"`
@@ -44,6 +45,7 @@ type ListModelsReturn struct {
 	ZMin          int       `json:"zMin"`
 }
 
+// ListModels blah
 func (obj *RestClient) ListModels(g, s string) map[string][]*ListModelsReturn {
 	retv := make(map[string][]*ListModelsReturn)
 	data := obj.Action("listModels", map[string]interface{}{"group": g}, s)

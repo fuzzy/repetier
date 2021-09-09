@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 )
 
+// StateListReturn blah
 type StateListReturn struct {
 	ActiveExtruder     int  `json:"activeExtruder"`
 	AutostartNextPrint bool `json:"autostartNextPrint"`

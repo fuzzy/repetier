@@ -52,3 +52,16 @@ func (obj *RestClient) ListModels(g, s string) map[string][]*ListModelsReturn {
 	json.Unmarshal(data, &retv)
 	return retv
 }
+
+// RemoveModel blah
+func (obj *RestClient) RemoveModel(id int, s string) []byte {
+	return obj.Action("removeModel", map[string]interface{}{"id": id}, s)
+}
+
+// CopyModel blah
+func (obj *RestClient) CopyModel(id int, as bool, s string) []byte {
+	return obj.Action("copyModel", map[string]interface{}{
+		"id":        id,
+		"autostart": as,
+	}, s)
+}

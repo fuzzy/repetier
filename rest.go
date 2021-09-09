@@ -52,35 +52,6 @@ func (obj *RestClient) Action(act string, data map[string]interface{}, slug stri
 	return obj.request("api", act, data, slug)
 }
 
-// ListPrinter blah
-func (obj *RestClient) ListPrinter() []byte {
-	return obj.request("api", "listPrinter", map[string]interface{}{}, "")
-}
-
-// StateList blah
-func (obj *RestClient) StateList(s string, ih bool) []byte {
-	return obj.request("api", "stateList", map[string]interface{}{"includeHistory": ih}, s)
-}
-
-// Move blah
-func (obj *RestClient) Move(slug string, x, y, z, e, s float64, r bool) []byte {
-	return obj.request("api", "move", map[string]interface{}{
-		"z": z, "x": x, "y": y, "e": e, "speed": s, "relative": r}, slug)
-}
-
-// Messages blah
-func (obj *RestClient) Messages() []byte {
-	return obj.request("api", "messages", map[string]interface{}{}, "")
-}
-
-// RemoveMessage blah
-func (obj *RestClient) RemoveMessage(id int64, a string) []byte {
-	if a != "" && a != "unpause" {
-		panic("Invalid action passed to RestClient.RemoveMessage")
-	}
-	return obj.request("api", "removeMessage", map[string]interface{}{"id": id, "a": a}, "")
-}
-
 // RemoveModel blah
 func (obj *RestClient) RemoveModel(id int64, s string) []byte {
 	return obj.request("api", "removeModel", map[string]interface{}{"id": id}, s)

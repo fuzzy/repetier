@@ -6,7 +6,6 @@ import (
 	"os"
 	"strconv"
 	"testing"
-	"time"
 
 	"github.com/fuzzy/repetier"
 )
@@ -72,6 +71,57 @@ func TestClientPort(t *testing.T) {
 	}
 }
 
+func TestClientListPrinter(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	flag := false
+	for _, v := range api.ListPrinter() {
+		if v.Slug == config.Printer {
+			flag = true
+		}
+	}
+	if !flag {
+		t.FailNow()
+	}
+}
+
+func TestClientStateList(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	data := api.StateList(config.Printer, false)
+	if !data[config.Printer].PowerOn {
+		t.FailNow()
+	}
+}
+
+func TestClientMove(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	ret := api.Move(config.Printer, 25.0, 25.0, 25.0, 0.0, 10.0, false)
+	if string(ret) != "{}" {
+		t.FailNow()
+	}
+}
+
+func TestClientMessages(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	api.Messages()
+}
+
+func TestClientRemoveMessage(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	for _, msg := range api.Messages() {
+		if msg.Slug == config.Printer {
+			if string(api.RemoveMessage(msg.ID, "")) != "{}" {
+				t.FailNow()
+			}
+		}
+	}
+}
+
+func TestClientListModels(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	api.ListModels("*", config.Printer)
+}
+
+/*
 func TestServerObjectInstantiation(t *testing.T) {
 	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
 	if api.Name == "" || api.Version == "" {
@@ -127,3 +177,4 @@ func TestServerObjectCanSetBedTemp(t *testing.T) {
 	time.Sleep(10 * time.Second)
 	api.Printers[config.Printer].HeatedBed.SetTemp(0.0)
 }
+*/

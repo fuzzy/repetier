@@ -6,7 +6,6 @@ import (
 	"os"
 	"strconv"
 	"testing"
-	"time"
 
 	"github.com/fuzzy/repetier"
 )
@@ -72,58 +71,70 @@ func TestClientPort(t *testing.T) {
 	}
 }
 
-func TestServerObjectInstantiation(t *testing.T) {
-	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
-	if api.Name == "" || api.Version == "" {
-		t.Errorf("API Client not updating properly on instantiation.")
+func TestClientListPrinter(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	flag := false
+	for _, v := range api.ListPrinter() {
+		if v.Slug == config.Printer {
+			flag = true
+		}
+	}
+	if !flag {
+		t.FailNow()
 	}
 }
 
-func TestServerObjectHasSlugs(t *testing.T) {
-	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
-	if len(api.Slugs()) == 0 {
-		t.Errorf("API Client not getting all the slugs.")
+func TestClientStateList(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	data := api.StateList(config.Printer, false)
+	if !data[config.Printer].PowerOn {
+		t.FailNow()
 	}
 }
 
-func TestServerObjectHasExtruderTemps(t *testing.T) {
-	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
-	for _, v := range api.Printers {
-		temp := v.State.Extruder[0].TempRead
-		if temp <= 1 {
-			t.Errorf("Could not read extruder temperature (got %.02f)", temp)
+func TestClientMove(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	ret := api.Move(config.Printer, 25.0, 25.0, 25.0, 0.0, 10.0, false)
+	if string(ret) != "{}" {
+		t.FailNow()
+	}
+}
+
+func TestClientMessages(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	api.Messages()
+}
+
+func TestClientRemoveMessage(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	for _, msg := range api.Messages() {
+		if msg.Slug == config.Printer {
+			if string(api.RemoveMessage(msg.ID, "")) != "{}" {
+				t.FailNow()
+			}
 		}
 	}
 }
 
-func TestServerObjectHasHeatedBedTemps(t *testing.T) {
-	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
-	for _, v := range api.Printers {
-		temp := v.State.HeatedBeds[0].TempRead
-		if temp <= 1 {
-			t.Errorf("Could not read HeatedBed temperature (got %.02f)", temp)
-		}
+func TestClientListModels(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	api.ListModels("*", config.Printer)
+}
+
+func TestClientCopyModel(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	models := api.ListModels("*", config.Printer)
+	if len(models) > 0 {
+		api.CopyModel(models["data"][0].ID, true, config.Printer)
 	}
 }
 
-func TestServerObjectCanMoveAxis(t *testing.T) {
-	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
-	api.Printers[config.Printer].AbsMove(25.0, 25.0, 25.0, 0.0)
-	api.Printers[config.Printer].RelMove(25.0, 25.0, 25.0, 0.0)
+func TestClientListJobs(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	api.ListJobs(config.Printer)
 }
 
-func TestServerObjectCanSetExtruderTemp(t *testing.T) {
-	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
-	api.Printers[config.Printer].Extruders[0].SetTemp(215.0)
-	// TODO check that the temp gets set
-	time.Sleep(10 * time.Second)
-	api.Printers[config.Printer].Extruders[0].SetTemp(0.0)
-}
-
-func TestServerObjectCanSetBedTemp(t *testing.T) {
-	api := repetier.NewServer(config.Proto, config.Host, config.Port, config.APIKey)
-	api.Printers[config.Printer].HeatedBed.SetTemp(55.0)
-	api.Printers[config.Printer].HeatedBed.Update()
-	time.Sleep(10 * time.Second)
-	api.Printers[config.Printer].HeatedBed.SetTemp(0.0)
+func TestClientGetPrinterConfig(t *testing.T) {
+	api := repetier.NewRestClient(config.Proto, config.Host, config.Port, config.APIKey)
+	api.GetPrinterConfig(config.Printer)
 }

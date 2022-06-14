@@ -1,6 +1,8 @@
 package repetier
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 // ListJobsReturn blah
 type ListJobsReturn struct {

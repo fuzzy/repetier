@@ -1,5 +1,5 @@
 all: test
-	go get -v -x .
+	go build -v -x .
 
 test:
 	make -C tests

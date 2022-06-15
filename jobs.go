@@ -55,3 +55,7 @@ func (obj *RestClient) ListJobs(s string) map[string][]*ListJobsReturn {
 	json.Unmarshal(data, &retv)
 	return retv
 }
+
+func (obj *RestClient) StartJob(s string, id int) {
+	obj.Action("startJob", map[string]interface{}{"id": id}, s)
+}

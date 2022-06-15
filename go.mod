@@ -2,4 +2,4 @@ module github.com/fuzzy/repetier
 
 go 1.14
 
-require github.com/gorilla/websocket v1.5.0 // indirect
+require github.com/urfave/cli/v2 v2.8.1

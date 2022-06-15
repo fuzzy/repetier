@@ -10,10 +10,10 @@ import (
 
 // RestClient blah
 type RestClient struct {
-	Proto  string
-	Host   string
-	Port   int
-	Apikey string
+	Proto   string
+	Host    string
+	Port    int
+	Apikey  string
 }
 
 // NewRestClient blah
